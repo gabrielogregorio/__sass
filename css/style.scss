@@ -1,0 +1,74 @@
+@import './variables';
+
+// interpolação de strings
+$bolaInterpolacaoString: 'bola2';
+
+// funções em sass
+@mixin flexCenter($wrap) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: $wrap;
+}
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  @include flexCenter(wrap);
+  width: 100%;
+  min-height: 100vh;
+  background-color: #232323;
+}
+
+.bola1 {
+  @include flexCenter(wrap);
+  width: 200px;
+  height: 200px;
+  margin: .1rem;
+  background-color: $primaryColor;
+  transition: .2s ease-out;
+
+  // cuidado com aninhamentos, sass tem esse problema
+  // se o html mudar, isso quebra ou fica como lixo
+  // cuidado com isso, por favor. Além disso, a especificidade
+  // está aumentando de forma significativa. Especificidade > 3
+  // já está muito tenso. E use classe, não use tags
+  .link {
+    color: $secondaryColor;
+    text-decoration: none;
+    color: 1rem;
+    font-size: 1.2rem;
+  }
+
+  &:hover { // bola1:hover {}
+    transform: scale(1.2);
+  }
+}
+
+.#{$bolaInterpolacaoString} {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  background-color: $secondaryColor;
+}
+
+// functions
+$z-index: (
+  'modal': 500,
+  'overlay': 400,
+  'dropdown': 300,
+  'default': 1,
+  'below': -1
+);
+
+@function z-indexFunc($layer) {
+  @return  map-get($z-index, $layer);
+}
+
+.create-post {
+  z-index: z-indexFunc(modal);
+}
